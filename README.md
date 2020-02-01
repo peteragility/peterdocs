@@ -34,6 +34,30 @@ Guide SAM deployment to AWS
 sam deploy -g
 ```
 
+## Python Cheatsheet
+Run a python file/module
+```
+python app.py
+python -c 'from app import lambda_handler; lambda_handler()'
+```
+Install package using pip
+```
+pip install <package>
+sudo pip install <package>
+```
+Create a virtual environment
+```
+virtualenv v-env
+```
+Activate the virtual environment
+```
+source v-env/bin/activate
+```
+Deactivate the virtual environment
+```
+deactivate
+```
+
 ## Git Cheatsheet
 Compare changes with local branch
 ```
