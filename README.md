@@ -6,6 +6,26 @@
 ## Cloudformation and SAM
 * https://medium.com/debugging-aws-lambda-functions-from-eclipse-with/debugging-aws-lambda-python-function-with-eclipse-using-pydev-1e0fa4b2deff
 
+## Amazon Rekognition
+List Rekognition collections
+```
+aws rekognition list-collections
+```
+Create a Rekognition collection
+```
+aws rekognition create-collection --collection-id "faces" --region ap-southeast-1
+```
+Train the collection with images in S3
+```
+aws rekognition index-faces \
+--image '{"S3Object":{"Bucket":"samsung-aisage", "Name":"images/peterchan-face-2.jpg"}}' \
+--collection-id 'faces' --max-faces 1 --quality-filter 'AUTO' --detection-attributes 'ALL' --external-image-id 'peterchan' --region ap-southeast-1
+```
+Delete a Rekognition collection 
+```
+aws rekognition delete-collection --collection-id "faces"
+```
+
 ## SAM Cheatsheet
 Init a sample SAM project
 ```
