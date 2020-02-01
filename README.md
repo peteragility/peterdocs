@@ -10,10 +10,19 @@
 Init a sample SAM project
 ```
 sam init --runtime python3.7 -n hello_world
+sam init --runtime java8 -n hello_world_java
 ```
-Build using container
+To build on your workstation, run this command in folder containing SAM template. Built artifacts will be written to .aws-sam/build folder
 ```
-sam build –use-container
+sam build
+``` 
+To build inside a AWS Lambda like Docker container
+```
+sam build --use-container
+```
+To build and package for deployment
+```
+sam build && sam package --s3-bucket <bucketname>
 ```
 Invoke lambda locally which will be run in local docker
 ```
