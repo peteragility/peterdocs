@@ -25,6 +25,14 @@ Delete a Rekognition collection
 ```
 aws rekognition delete-collection --collection-id "faces"
 ```
+List faces in a collection
+```
+aws rekognition list-faces --collection-id "collection-id"  
+```
+Delete faces in a collection
+```
+aws rekognition delete-faces --collection-id "collectionname" --face-ids '["faceid"]'
+```
 
 ## SAM Cheatsheet
 Init a sample SAM project
@@ -44,12 +52,16 @@ To build and package for deployment
 ```
 sam build && sam package --s3-bucket <bucketname>
 ```
-Invoke lambda locally which will be run in local docker
+Invoke lambda locally once, will be launched in a docker
 ```
 sam local invoke
 sam lcoal invoke <functionName> --event testEvent.json
 ```
-Guide SAM deployment to AWS
+Start local API for debugging
+```
+sam local start-api
+```
+Guided SAM deployment to AWS
 ```
 sam deploy -g
 ```
