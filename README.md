@@ -53,7 +53,14 @@ Guide SAM deployment to AWS
 ```
 sam deploy -g
 ```
-
+Package an application
+```
+sam package --template-file template.yaml --output-template-file packaged.yaml --s3-bucket samsung-aisage
+```
+Publish an application
+```
+sam publish --template packaged.yaml --region ap-southeast-1
+```
 ## Python Cheatsheet
 Run a python file/module
 ```
@@ -102,4 +109,10 @@ git checkout master
 Git status
 ```
 git status
+```
+
+## Linux commands
+Find location of a executable
+```bash
+which python
 ```
