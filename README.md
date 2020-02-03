@@ -1,10 +1,9 @@
 # Peter Working Tips
 
-## Media Vertical Reads
+## Nice Articles
 * https://aws.amazon.com/blogs/media/top-10-things-to-consider-when-migrating-your-vod-library-to-aws/
-
-## Cloudformation and SAM
 * https://medium.com/debugging-aws-lambda-functions-from-eclipse-with/debugging-aws-lambda-python-function-with-eclipse-using-pydev-1e0fa4b2deff
+* https://medium.com/swlh/hacking-json-web-tokens-jwts-9122efe91e4a
 
 ## Amazon Rekognition
 List Rekognition collections
@@ -91,10 +90,6 @@ virtualenv v-env
 Activate the virtual environment
 ```
 source v-env/bin/activate
-```
-Deactivate the virtual environment
-```
-deactivate
 ```
 
 ## Git Cheatsheet
