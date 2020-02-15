@@ -83,12 +83,13 @@ python -c 'from app import lambda_handler; lambda_handler()'
 Install package using pip
 ```
 pip install <package>
-sudo pip install <package>
 ```
-Create a virtual environment
+Create a virtual environment in python 2, pls install virtualenv via pip first
 ```
 virtualenv v-env
 ```
+Create a virtual environment in python 3, the function is built in
+python -m venv v-env
 Activate the virtual environment
 ```
 source v-env/bin/activate
@@ -125,3 +126,4 @@ Find location of a executable
 ```bash
 which python
 ```
+
