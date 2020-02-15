@@ -89,7 +89,9 @@ Create a virtual environment in python 2, pls install virtualenv via pip first
 virtualenv v-env
 ```
 Create a virtual environment in python 3, the function is built in
+```
 python -m venv v-env
+```
 Activate the virtual environment
 ```
 source v-env/bin/activate
