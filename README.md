@@ -97,6 +97,24 @@ Activate the virtual environment
 source v-env/bin/activate
 ```
 
+## OpenCV Cheatsheet
+Install opencv library for c++/python
+```
+sudo apt-get install python-opencv
+```
+Install Linux based video camera tool guvcview
+```
+sudo apt-get install guvcview
+```
+Check if a process using V4L resources
+```
+sudo lsof | grep libv4l2
+```
+List all virtual video devices
+```
+ls -l /dev/video*
+```
+
 ## Git Cheatsheet
 Compare changes with local branch
 ```
