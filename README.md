@@ -34,6 +34,24 @@ Delete faces in a collection
 ```
 aws rekognition delete-faces --collection-id "collectionname" --face-ids '["faceid"]'
 ```
+## AWS CLI Cheatsheet
+Edit credentials and config
+```
+vi ~/.aws/credentials
+vi ~/.aws/config
+```
+Switch AWS Profile
+```
+export AWS_PROFILE=user1
+```
+S3 sync data
+```
+aws s3 sync . s3://bucketName/prefix --region ap-east-1
+```
+S3 delete data
+```
+aw s3 rm s3://bucketName/prefix --recursive --region ap-east-1
+```
 
 ## SAM Cheatsheet
 Init a sample SAM project
@@ -145,5 +163,9 @@ git status
 Find location of a executable
 ```bash
 which python
+```
+Find running ports
+```bash
+netstat -plntu
 ```
 
