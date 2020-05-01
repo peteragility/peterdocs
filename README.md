@@ -1,40 +1,43 @@
 # Peter Working Tips
 
-## Nice Articles
-* https://aws.amazon.com/blogs/media/top-10-things-to-consider-when-migrating-your-vod-library-to-aws/
-* https://medium.com/debugging-aws-lambda-functions-from-eclipse-with/debugging-aws-lambda-python-function-with-eclipse-using-pydev-1e0fa4b2deff
-* https://aws.amazon.com/blogs/mobile/understanding-amazon-cognito-user-pool-oauth-2-0-grants/
-* https://medium.com/swlh/hacking-json-web-tokens-jwts-9122efe91e4a
-* https://developer.okta.com/blog/2019/08/22/okta-authjs-pkce
+## Linux commands
+Find location of a executable
+```bash
+which python
+```
+Find running networking ports
+```bash
+netstat -plntu
+```
+Find running processes
+```bash
+ps aux | grep processName
+```
+### Run network throughput test (iperf)
+Install iperf3
+```
+sudo yum install iperf3
+```
+Run iperf server
+```
+iperf3 -s
+```
+Run iperf client
+```
+iperf3 -c targetIP
+```
 
-## Amazon Rekognition
-List Rekognition collections
-```
-aws rekognition list-collections
-```
-Create a Rekognition collection
-```
-aws rekognition create-collection --collection-id "faces" --region ap-southeast-1
-```
-Train the collection with images in S3
-```
-aws rekognition index-faces \
---image '{"S3Object":{"Bucket":"samsung-aisage", "Name":"images/peterchan-face-2.jpg"}}' \
---collection-id 'faces' --max-faces 1 --quality-filter 'AUTO' --detection-attributes 'ALL' --external-image-id 'peterchan' --region ap-southeast-1
-```
-Delete a Rekognition collection 
-```
-aws rekognition delete-collection --collection-id "faces"
-```
-List faces in a collection
-```
-aws rekognition list-faces --collection-id "collection-id"  
-```
-Delete faces in a collection
-```
-aws rekognition delete-faces --collection-id "collectionname" --face-ids '["faceid"]'
-```
 ## AWS CLI Cheatsheet
+Install AWS CLI 2 (Linux)
+```
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+```
+```
+unzip awscliv2.zip
+```
+```
+sudo ./aws/install
+```
 Edit credentials and config
 ```
 vi ~/.aws/credentials
@@ -92,6 +95,25 @@ Publish an application
 ```
 sam publish --template packaged.yaml --region ap-southeast-1
 ```
+
+## K8S/EKS Cheatsheet
+Install kubectl (1.16)
+```
+curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/linux/amd64/kubectl
+```
+```
+chmod +x ./kubectl
+```
+```
+mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
+```
+```
+echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
+```
+```
+kubectl version --short --client
+```
+
 ## Python Cheatsheet
 Run a python file/module
 ```
@@ -114,8 +136,7 @@ Activate the virtual environment
 ```
 source v-env/bin/activate
 ```
-
-## OpenCV Cheatsheet
+### OpenCV Cheatsheet
 Install opencv library for c++/python
 ```
 sudo apt-get install python-opencv
@@ -131,6 +152,34 @@ sudo lsof | grep libv4l2
 List all virtual video devices
 ```
 ls -l /dev/video*
+```
+
+## Amazon Rekognition
+List Rekognition collections
+```
+aws rekognition list-collections
+```
+Create a Rekognition collection
+```
+aws rekognition create-collection --collection-id "faces" --region ap-southeast-1
+```
+Train the collection with images in S3
+```
+aws rekognition index-faces \
+--image '{"S3Object":{"Bucket":"samsung-aisage", "Name":"images/peterchan-face-2.jpg"}}' \
+--collection-id 'faces' --max-faces 1 --quality-filter 'AUTO' --detection-attributes 'ALL' --external-image-id 'peterchan' --region ap-southeast-1
+```
+Delete a Rekognition collection 
+```
+aws rekognition delete-collection --collection-id "faces"
+```
+List faces in a collection
+```
+aws rekognition list-faces --collection-id "collection-id"  
+```
+Delete faces in a collection
+```
+aws rekognition delete-faces --collection-id "collectionname" --face-ids '["faceid"]'
 ```
 
 ## Git Cheatsheet
@@ -158,14 +207,3 @@ Git status
 ```
 git status
 ```
-
-## Linux commands
-Find location of a executable
-```bash
-which python
-```
-Find running ports
-```bash
-netstat -plntu
-```
-
