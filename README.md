@@ -21,10 +21,12 @@ sudo yum install iperf3
 Run iperf server
 ```
 iperf3 -s
+iperf3 -s -D
 ```
 Run iperf client
 ```
 iperf3 -c targetIP
+iperf3 -c targetIP -t timeInSeconds
 ```
 
 ## AWS CLI Cheatsheet
@@ -112,6 +114,14 @@ echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
 ```
 ```
 kubectl version --short --client
+```
+Use the AWS CLI update-kubeconfig command to create or update your kubeconfig for your cluster
+```
+aws eks --region region_code update-kubeconfig --name cluster_name
+```
+Test the config
+```
+kubectl get svc
 ```
 
 ## Python Cheatsheet
