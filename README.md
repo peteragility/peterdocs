@@ -123,6 +123,10 @@ Test the config
 ```
 kubectl get svc
 ```
+Scale a deployment
+```
+kubectl scale deployment.apps/nginx-deployment --replicas=10 -n <namespace>
+```
 
 ## Python Cheatsheet
 Run a python file/module
@@ -193,12 +197,14 @@ aws rekognition delete-faces --collection-id "collectionname" --face-ids '["face
 ```
 
 ## Git Cheatsheet
-Compare changes with local branch
+Compare diff between modified/staged files with HEAD
 ```
 git diff
+git diff --cached
 ```
 Add files to stage
 ```
+git add -u
 git add <files>
 ```
 Commit to local branch
