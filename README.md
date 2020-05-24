@@ -62,40 +62,38 @@ aw s3 rm s3://bucketName/prefix --recursive --region ap-east-1
 Init a sample SAM project
 ```
 sam init --runtime python3.7 -n hello_world
-sam init --runtime java8 -n hello_world_java
+sam init --runtime java8 -n hello_world
+sam init --runtime nodejs12.x -n hello_world
 ```
 To build on your workstation, run this command in folder containing SAM template. Built artifacts will be written to .aws-sam/build folder
 ```
 sam build
-``` 
-To build inside a AWS Lambda like Docker container
-```
 sam build --use-container
 ```
-To build and package for deployment
+Generate SAM template yaml from cdk
 ```
-sam build && sam package --s3-bucket <bucketname>
+cdk synth --no-staging > lambda/template.yaml
 ```
-Invoke lambda locally once, will be launched in a docker
+Invoke lambda locally in a docker, with event json
 ```
-sam local invoke
-sam lcoal invoke <functionName> --event testEvent.json
+sam local invoke <functionName> --event testEvent.json
 ```
 Start local API for debugging
 ```
 sam local start-api
 ```
-Guided SAM deployment to AWS
-```
-sam deploy -g
-```
 Package an application
 ```
+sam build && sam package --s3-bucket <bucketname>
 sam package --template-file template.yaml --output-template-file packaged.yaml --s3-bucket samsung-aisage
 ```
 Publish an application
 ```
 sam publish --template packaged.yaml --region ap-southeast-1
+```
+Guided SAM deployment to AWS
+```
+sam deploy -g
 ```
 
 ## K8S/EKS Cheatsheet
