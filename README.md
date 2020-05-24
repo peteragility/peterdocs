@@ -203,8 +203,9 @@ git diff --cached
 ```
 Add files to stage
 ```
+git add .
+git add -A
 git add -u
-git add <files>
 ```
 Commit to local branch
 ```
