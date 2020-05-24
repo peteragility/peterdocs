@@ -7,7 +7,8 @@ which python
 ```
 Find running networking ports
 ```bash
-netstat -plntu
+netstat -lptu
+netstat -lpntu
 ```
 Find running processes
 ```bash
