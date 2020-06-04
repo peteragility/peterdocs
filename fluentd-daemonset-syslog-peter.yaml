@@ -1,0 +1,170 @@
+t---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: fluentd
+  namespace: kube-system
+  labels:
+    k8s-app: fluentd-logging
+    version: v1
+
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: fluentd
+  namespace: kube-system
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - namespaces
+  verbs:
+  - get
+  - list
+  - watch
+
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: fluentd
+roleRef:
+  kind: ClusterRole
+  name: fluentd
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: ServiceAccount
+  name: fluentd
+  namespace: kube-system
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluentd-config
+  namespace: kube-system
+  labels:
+    k8s-app: fluentd-logging
+    version: v1
+data:
+  fluent.conf: |
+    @include kubernetes.conf
+    <match **>
+     @type remote_syslog
+     @id out_kube_remote_syslog
+     host "#{ENV['SYSLOG_HOST']}"
+     port "#{ENV['SYSLOG_PORT']}"
+     severity debug
+     program fluentd
+     hostname ${kubernetes_host}
+     
+     protocol "#{ENV['SYSLOG_PROTOCOL'] || 'tcp'}"
+     tls "#{ENV['SYSLOG_TLS'] || 'false'}"
+     ca_file "#{ENV['SYSLOG_CA_FILE'] || ''}"
+     verify_mode "#{ENV['SYSLOG_VERIFY_MODE'] || ''}"
+     packet_size 65535
+
+     <buffer kubernetes_host>
+     </buffer>
+
+     <format>
+      @type ltsv
+     </format>
+    </match>
+  kubernetes.conf: |
+    <match fluent.**>
+     @type null
+    </match>
+    <source>
+     @type tail
+     @id in_tail_container_logs
+     path /var/log/containers/*.log
+     pos_file /var/log/fluentd-containers.log.pos
+     tag "#{ENV['FLUENT_CONTAINER_TAIL_TAG'] || 'kubernetes.*'}"
+     exclude_path "#{ENV['FLUENT_CONTAINER_TAIL_EXCLUDE_PATH'] || use_default}"
+     read_from_head true
+     <parse>
+      @type "#{ENV['FLUENT_CONTAINER_TAIL_PARSER_TYPE'] || 'json'}"
+      time_format %Y-%m-%dT%H:%M:%S.%NZ
+     </parse>
+    </source>
+
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd
+  namespace: kube-system
+  labels:
+    k8s-app: fluentd-logging
+    version: v1
+spec:
+  selector:
+    matchLabels:
+      k8s-app: fluentd-logging
+  template:
+    metadata:
+      labels:
+        k8s-app: fluentd-logging
+        version: v1
+    spec:
+      serviceAccount: fluentd
+      serviceAccountName: fluentd
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      initContainers:
+        - name: copy-fluentd-config
+          image: busybox
+          command: ['sh', '-c', 'cp /config-volume/..data/* /fluentd/etc']
+          volumeMounts:
+            - name: config-volume
+              mountPath: /config-volume
+            - name: fluentdconf
+              mountPath: /fluentd/etc
+        - name: update-log-driver
+          image: busybox
+          command: ['sh','-c','']
+      containers:
+      - name: fluentd
+        image: fluent/fluentd-kubernetes-daemonset:v1-debian-syslog
+        env:
+          - name:  SYSLOG_HOST
+            value: "172.30.0.41"
+          - name:  SYSLOG_PORT
+            value: "514"
+          - name:  SYSLOG_PROTOCOL
+            value: "tcp"
+          - name:  FLUENT_CONTAINER_TAIL_PARSER_TYPE
+            value: "none"
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+        volumeMounts:
+        - name: config-volume
+          mountPath: /config-volume
+        - name: fluentdconf
+          mountPath: /fluentd/etc
+        - name: varlog
+          mountPath: /var/log
+        - name: varlibdockercontainers
+          mountPath: /var/lib/docker/containers
+          readOnly: true
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: config-volume
+        configMap:
+          name: fluentd-config
+      - name: fluentdconf
+        emptyDir: {}
+      - name: varlog
+        hostPath:
+          path: /var/log
+      - name: varlibdockercontainers
+        hostPath:
+          path: /var/lib/docker/containers
