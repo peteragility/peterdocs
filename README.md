@@ -168,31 +168,21 @@ ls -l /dev/video*
 ```
 
 ## Amazon Rekognition
-List Rekognition collections
-```
-aws rekognition list-collections
-```
 Create a Rekognition collection
 ```
-aws rekognition create-collection --collection-id "faces" --region ap-southeast-1
+aws rekognition create-collection --collection-id "test-collection" --region us-west-2
 ```
-Train the collection with images in S3
+Index face image in S3 into a collection
 ```
-aws rekognition index-faces \
---image '{"S3Object":{"Bucket":"samsung-aisage", "Name":"images/peterchan-face-2.jpg"}}' \
---collection-id 'faces' --max-faces 1 --quality-filter 'AUTO' --detection-attributes 'ALL' --external-image-id 'peterchan' --region ap-southeast-1
-```
-Delete a Rekognition collection 
-```
-aws rekognition delete-collection --collection-id "faces"
+aws rekognition index-faces --image '{"S3Object":{"Bucket":"test-bucket", "Name":"test.jpg"}}' --collection-id 'test-collection' --max-faces 1 --quality-filter 'AUTO' --detection-attributes 'ALL' --external-image-id 'testperson' --region us-west-2
 ```
 List faces in a collection
 ```
-aws rekognition list-faces --collection-id "collection-id"  
+aws rekognition list-faces --collection-id "test-collection" "face1-id" "face2-id" --region us-west-2
 ```
-Delete faces in a collection
+Search face by image (face match)
 ```
-aws rekognition delete-faces --collection-id "collectionname" --face-ids '["faceid"]'
+aws rekognition search-faces-by-image --image '{"S3Object":{"Bucket":"test-bucket", "Name":"someone.png"}}' --collection-id "test-collection" --max-faces 1 --quality-filter "AUTO" --region us-west-2
 ```
 
 ## Git Cheatsheet
