@@ -59,21 +59,26 @@ S3 delete data
 aw s3 rm s3://bucketName/prefix --recursive --region ap-east-1
 ```
 
-## SAM Cheatsheet
+##  CDK / SAM Cheatsheet
+Init a sample CDK project
+```
+cdk init sample-app --language java
+cdk init sample-app --language python
+```
+Generate SAM template yaml from cdk
+```
+cdk synth --no-staging > lambda/template.yaml
+```
 Init a sample SAM project
 ```
+sam init --runtime nodejs12.x -n hello_world
 sam init --runtime python3.7 -n hello_world
 sam init --runtime java8 -n hello_world
-sam init --runtime nodejs12.x -n hello_world
 ```
 To build on your workstation, run this command in folder containing SAM template. Built artifacts will be written to .aws-sam/build folder
 ```
 sam build
 sam build --use-container
-```
-Generate SAM template yaml from cdk
-```
-cdk synth --no-staging > lambda/template.yaml
 ```
 Invoke lambda locally in a docker, with event json
 ```
