@@ -131,6 +131,10 @@ Scale a deployment
 ```
 kubectl scale deployment.apps/nginx-deployment --replicas=10 -n <namespace>
 ```
+Getting shell into a container
+```
+kubectl exec --stdin --tty pod-name -- /bin/bash
+``` 
 
 ## Python Cheatsheet
 Run a python file/module
